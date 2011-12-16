@@ -1,5 +1,3 @@
-#encoding: utf-8
-
 class VideosController < ApplicationController
   before_filter :has_upload_right, only: :new
   before_filter :own_only, only: [:edit, :update, :destroy]
@@ -30,7 +28,7 @@ class VideosController < ApplicationController
     @video = Video.new(params[:video])
 
     if @video.save
-      redirect_to @video, notice: 'Видео успешно добавлено'
+      redirect_to @video, notice: 'Video was successfully created'
     else
       render action: "new"
     end
@@ -41,7 +39,7 @@ class VideosController < ApplicationController
     @video = Video.find(params[:id])
 
     if @video.update_attributes(params[:video])
-      redirect_to @video, notice: 'Видео успешно добавлено'
+      redirect_to @video, notice: 'Video was successfully updated'
     else
       render action: "edit"
     end

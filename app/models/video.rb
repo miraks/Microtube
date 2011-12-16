@@ -1,5 +1,6 @@
 class Video < ActiveRecord::Base
   belongs_to :user
+  has_many :posts, dependent: :destroy
 
   has_attached_file :video, styles: { original: { } },
                             :path => ":rails_root/public/system/:attachment/:id/:style/:name_with_changed_extension",
