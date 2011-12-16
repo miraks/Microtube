@@ -1,7 +1,5 @@
 %h1 Editing user
 
-= render 'form'
+= render 'form', hide_login_field: true
 
-= link_to 'Show', @user
-\|
-= link_to 'Back', users_path
+= link_to 'Back', @user

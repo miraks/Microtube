@@ -1,18 +1,21 @@
 %p#notice= notice
 
 %p
-  %b Login:
+  %b Name:
   = @user.login
-%p
-  %b Crypted password:
-  = @user.crypted_password
-%p
-  %b Password salt:
-  = @user.password_salt
-%p
-  %b Persistence token:
-  = @user.persistence_token
 
-= link_to 'Edit', edit_user_path(@user)
-\|
-= link_to 'Back', users_path
+#videos
+  %h2 Videos
+  %table
+    %tr
+      %th Title
+      %th
+      %th
+    - @user.videos.each do |video|
+      %tr
+        %td
+          = link_to video.title, video
+        %td
+          = link_to 'Edit', edit_video_path(video) if own_account?
+        %td
+          = link_to 'Delete', video, method: :delete if own_account?

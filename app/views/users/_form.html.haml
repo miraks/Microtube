@@ -6,9 +6,10 @@
         - @user.errors.full_messages.each do |msg|
           %li= msg
 
-  .field
-    = f.label :login
-    = f.text_field :login
+  - if (defined? hide_login_field).nil?
+    .field
+      = f.label :login
+      = f.text_field :login
   .field
     = f.label :password
     = f.password_field :password
