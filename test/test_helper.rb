@@ -16,3 +16,34 @@ class ActiveSupport::TestCase
     session.destroy if session
   end
 end
+
+# prevent Paperclip from actually saving files
+module Paperclip
+  class Attachment
+    def save
+      @queued_for_delete = []
+      @queued_for_write = {}
+      true
+    end
+
+    private
+
+    def post_process_styles
+      true
+    end
+  end
+end
+
+class File
+  def to_tempfile
+    Class.new do
+      def size
+        10000
+      end
+
+      def read
+        ""
+      end
+    end.new
+  end
+end
