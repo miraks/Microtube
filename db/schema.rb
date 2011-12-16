@@ -11,13 +11,23 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111216095224) do
+ActiveRecord::Schema.define(:version => 20111216120749) do
 
   create_table "users", :force => true do |t|
     t.string   "login",             :null => false
     t.string   "crypted_password",  :null => false
     t.string   "password_salt",     :null => false
     t.string   "persistence_token", :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "videos", :force => true do |t|
+    t.string   "title",              :null => false
+    t.text     "description"
+    t.string   "video_file_name",    :null => false
+    t.string   "video_content_type", :null => false
+    t.integer  "video_file_size",    :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

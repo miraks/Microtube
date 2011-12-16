@@ -1,4 +1,6 @@
 Microtube::Application.routes.draw do
+  resources :videos
+
   resources :users, except: [:index]
 
   resources :user_sessions, only: [:new, :create, :destroy]
