@@ -8,7 +8,7 @@ class UserTest < ActiveSupport::TestCase
 
     context 'login' do
       should 'be unique' do
-        @new_user.Factory.build(:user, login: @user.login)
+        @new_user = Factory.build(:user, login: @user.login)
         @new_user.save
         assert_contains(@new_user.errors.full_messages, "Login has already been taken")
       end
