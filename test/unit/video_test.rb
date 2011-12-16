@@ -51,7 +51,7 @@ class VideoTest < ActiveSupport::TestCase
       should 'fail conversion' do
         @video = Factory.build(:fake_video)
         @video.save
-        assert_equal(["Video error while converting your video", "Video content type invalid"], @video.errors.full_messages)
+        assert_equal(["Video content type invalid"], @video.errors.full_messages)
       end
     end
   end

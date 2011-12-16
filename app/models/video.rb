@@ -1,6 +1,5 @@
 class Video < ActiveRecord::Base
-  has_many :posts, :dependent => :destroy
-  belongs_to :user, validate: true
+  belongs_to :user
 
   has_attached_file :video, styles: { original: { } },
                             :path => ":rails_root/public/system/:attachment/:id/:style/:name_with_changed_extension",
@@ -15,7 +14,7 @@ class Video < ActiveRecord::Base
   validates :user, presence: true
   validates :description, length: { maximum: 1000 }
   validates_attachment_presence :video
-  validates_attachment_content_type :video, content_type: /video/, message: "content type invalid"
+  validates_attachment_content_type :video, content_type: /video/, message: "invalid"
   validates_attachment_size :video, less_than: 100.megabyte
 
   self.per_page = 5
