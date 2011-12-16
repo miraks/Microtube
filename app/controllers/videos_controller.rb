@@ -10,6 +10,7 @@ class VideosController < ApplicationController
   # GET /videos/1
   def show
     @video = Video.find(params[:id])
+    @post = Post.new
   end
 
   # GET /videos/new
