@@ -1,0 +1,22 @@
+#title
+  %h2= video.title
+#author
+  %p
+    %b
+      Author:
+      = video.user.login
+#player
+#description
+  %p
+    %b
+      Description:
+  %p
+    = video.description
+
+:javascript
+  jwplayer("player").setup({
+    flashplayer: "/player/player.swf",
+    file: "#{video.video.url}",
+    width: 480,
+    height: 360
+  });

@@ -1,27 +1,9 @@
-%h1 Listing videos
+= link_to('Upload video', new_video_path) if logged_in?
 
-%table
-  %tr
-    %th Title
-    %th Description
-    %th Video file name
-    %th Video content type
-    %th Video file size
-    %th
-    %th
-    %th
+%h1 Video list
 
-  - @videos.each do |video|
-    %tr
-      %td= video.title
-      %td= video.description
-      %td= video.video_file_name
-      %td= video.video_content_type
-      %td= video.video_file_size
-      %td= link_to 'Show', video
-      %td= link_to 'Edit', edit_video_path(video)
-      %td= link_to 'Destroy', video, :confirm => 'Are you sure?', :method => :delete
+- @videos.each do |video|
+  %h3= link_to video.title, video
+  %p= truncate video.description, lenght: 200
 
-%br
-
-= link_to 'New Video', new_video_path
+= will_paginate @videos, :param_name => :page
