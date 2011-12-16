@@ -1,35 +1,22 @@
-class VideosController < ApplicationController
-  # GET /videos
-  # GET /videos.json
-  def index
-    @videos = Video.all
+#encoding: utf-8
 
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @videos }
-    end
+class VideosController < ApplicationController
+  before_filter :has_upload_right, only: :new
+  before_filter :own_only, only: [:edit, :update, :destroy]
+
+  # GET /videos
+  def index
+    @videos = Video.page(params[:page]).order('created_at DESC')
   end
 
   # GET /videos/1
-  # GET /videos/1.json
   def show
     @video = Video.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @video }
-    end
   end
 
   # GET /videos/new
-  # GET /videos/new.json
   def new
     @video = Video.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @video }
-    end
   end
 
   # GET /videos/1/edit
@@ -38,46 +25,48 @@ class VideosController < ApplicationController
   end
 
   # POST /videos
-  # POST /videos.json
   def create
+    params[:video][:user_id] = current_user.id
     @video = Video.new(params[:video])
 
-    respond_to do |format|
-      if @video.save
-        format.html { redirect_to @video, notice: 'Video was successfully created.' }
-        format.json { render json: @video, status: :created, location: @video }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @video.errors, status: :unprocessable_entity }
-      end
+    if @video.save
+      redirect_to @video, notice: 'Видео успешно добавлено'
+    else
+      render action: "new"
     end
   end
 
   # PUT /videos/1
-  # PUT /videos/1.json
   def update
     @video = Video.find(params[:id])
 
-    respond_to do |format|
-      if @video.update_attributes(params[:video])
-        format.html { redirect_to @video, notice: 'Video was successfully updated.' }
-        format.json { head :ok }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @video.errors, status: :unprocessable_entity }
-      end
+    if @video.update_attributes(params[:video])
+      redirect_to @video, notice: 'Видео успешно добавлено'
+    else
+      render action: "edit"
     end
   end
 
   # DELETE /videos/1
-  # DELETE /videos/1.json
   def destroy
     @video = Video.find(params[:id])
     @video.destroy
 
-    respond_to do |format|
-      format.html { redirect_to videos_url }
-      format.json { head :ok }
-    end
+    redirect_to current_user
+  end
+
+  private
+
+  def has_upload_right
+    redirect_to(root_url, :notice => "You must log in first.") unless logged_in?
+  end
+
+  def own_only
+    redirect_to(root_url, :notice => "You can change only your own videos.") unless own_video?
+  end
+
+  def own_video?
+    return false unless current_session
+    Video.find(params[:id]).user == current_user
   end
 end
