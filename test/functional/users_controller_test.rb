@@ -29,7 +29,7 @@ class UsersControllerTest < ActionController::TestCase
       should 'render' do
         login @user
         get :edit, id: @user.to_param
-        assert_responce :success
+        assert_response :success
       end
     end
 
@@ -38,7 +38,7 @@ class UsersControllerTest < ActionController::TestCase
         old_pass = @user.crypted_password
         login @user
         put :update, id: @user.to_param, user: { password: 'new_pass', password_confirmation: 'new pass' }
-        assert_redirect_to user_path(@user)
+        assert_redirected_to user_path(@user)
         @user.reload
         assert_not_equal(old_pass, @user.crypted_password)
       end
